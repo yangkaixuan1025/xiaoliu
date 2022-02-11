@@ -1,5 +1,10 @@
 package main
 
+import (
+	"container/heap"
+	"fmt"
+)
+
 type Heap struct {
 	a     []int
 	n     int
@@ -67,4 +72,48 @@ func swap(a []int, i int, j int) {
 	tmp := a[i]
 	a[i] = a[j]
 	a[j] = tmp
+}
+
+// An IntHeap is a min-heap of ints.
+type IntHeap []int
+
+func (h IntHeap) Len() int           { return len(h) }
+func (h IntHeap) Less(i, j int) bool { return h[i] < h[j] }
+func (h IntHeap) Swap(i, j int)      { h[i], h[j] = h[j], h[i] }
+func (h *IntHeap) Push(x interface{}) {
+	// Push and Pop use pointer receivers because they modify the slice's length,
+	// not just its contents.
+	*h = append(*h, x.(int))
+}
+
+func (h *IntHeap) Pop() interface{} {
+	old := *h
+	n := len(old)
+	x := old[n-1]
+	*h = old[0 : n-1]
+	return x
+}
+
+func getLeastNumbers(arr []int, k int) []int {
+
+	h := IntHeap(arr[:k])
+	hp := &h
+	heap.Init(hp)
+
+	for i := k; i < len(arr); i++ {
+		x := heap.Pop(hp).(int)
+		fmt.Println(hp)
+		if x > arr[i] {
+			heap.Push(hp, arr[i])
+		} else {
+			heap.Push(hp, x)
+		}
+	}
+	fmt.Println(hp)
+	return []int(*hp)
+}
+
+func main() {
+	getLeastNumbers([]int{0, 0, 100, 1, 2, 4, 2, 2, 3, 1, 4}, 8)
+
 }

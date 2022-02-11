@@ -5,6 +5,7 @@ import "sort"
 func permuteUnique(nums []int) [][]int {
 	res = make([][]int, 0)
 	sort.Ints(nums)
+
 	permuteUniqueBackTracking(nums, []int{}, make([]bool, len(nums)))
 	return res
 }
