@@ -78,7 +78,7 @@ func swap(a []int, i int, j int) {
 type IntHeap []int
 
 func (h IntHeap) Len() int           { return len(h) }
-func (h IntHeap) Less(i, j int) bool { return h[i] < h[j] }
+func (h IntHeap) Less(i, j int) bool { return h[i] > h[j] }
 func (h IntHeap) Swap(i, j int)      { h[i], h[j] = h[j], h[i] }
 func (h *IntHeap) Push(x interface{}) {
 	// Push and Pop use pointer receivers because they modify the slice's length,
@@ -101,8 +101,9 @@ func getLeastNumbers(arr []int, k int) []int {
 	heap.Init(hp)
 
 	for i := k; i < len(arr); i++ {
-		x := heap.Pop(hp).(int)
 		fmt.Println(hp)
+		x := heap.Pop(hp).(int)
+		fmt.Println(x)
 		if x > arr[i] {
 			heap.Push(hp, arr[i])
 		} else {
@@ -114,6 +115,8 @@ func getLeastNumbers(arr []int, k int) []int {
 }
 
 func main() {
-	getLeastNumbers([]int{0, 0, 100, 1, 2, 4, 2, 2, 3, 1, 4}, 8)
-
+	//getLeastNumbers([]int{0, 0, 100, 1, 2, 4, 2, 2, 3, 1, 4}, 8)
+	h := &IntHeap{0, 0, 100, 1, 2, 4, 2, 2, 3, 1, 20000, 4}
+	heap.Init(h)
+	fmt.Println(h)
 }
